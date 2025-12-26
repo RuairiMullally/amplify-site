@@ -241,9 +241,6 @@
             border: 2px solid var(--black-lighter);
             padding: 1.5rem;
             margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
@@ -332,67 +329,205 @@
         .rank-2 .rank { color: var(--silver); }
         .rank-3 .rank { color: var(--bronze); }
 
-        .profile-pic {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
+        /* Song-focused layout */
+        .song-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .album-art {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
             border: 3px solid var(--yellow);
             object-fit: cover;
             flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(255, 214, 0, 0.3);
         }
 
-        .rank-1 .profile-pic { border-color: var(--gold); }
-        .rank-2 .profile-pic { border-color: var(--silver); }
-        .rank-3 .profile-pic { border-color: var(--bronze); }
+        .rank-1 .album-art { 
+            border-color: var(--gold);
+            width: 90px;
+            height: 90px;
+        }
+        .rank-2 .album-art { 
+            border-color: var(--silver);
+            width: 85px;
+            height: 85px;
+        }
+        .rank-3 .album-art { 
+            border-color: var(--bronze);
+            width: 85px;
+            height: 85px;
+        }
 
-        .info {
+        .song-info {
             flex: 1;
             min-width: 0;
         }
 
-        .username {
-            font-weight: 800;
-            font-size: 1.2rem;
-            margin-bottom: 0.3rem;
+        .song-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
             color: var(--yellow);
+            margin-bottom: 0.3rem;
+            letter-spacing: 1px;
+            line-height: 1.2;
         }
 
-        .rank-1 .username { color: var(--gold); }
-        .rank-2 .username { color: var(--silver); }
-        .rank-3 .username { color: var(--bronze); }
+        .rank-1 .song-title { 
+            color: var(--gold);
+            font-size: 2.2rem;
+        }
+        .rank-2 .song-title { 
+            color: var(--silver);
+            font-size: 2rem;
+        }
+        .rank-3 .song-title { 
+            color: var(--bronze);
+            font-size: 1.9rem;
+        }
 
-        .song-name {
+        .song-artist {
             color: var(--gray);
             font-size: 1rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            margin-bottom: 0.5rem;
         }
 
-        .song-name::before {
-            content: '♪ ';
+        .pool-stats {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--gray);
         }
 
-        .tip-amount {
+        .pool-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .pool-stat-icon {
+            color: var(--yellow);
+        }
+
+        .total-pool {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 2.5rem;
+            font-size: 3rem;
             color: var(--yellow);
             text-align: right;
-            min-width: 120px;
             letter-spacing: 1px;
+            line-height: 1;
         }
 
-        .rank-1 .tip-amount { 
+        .rank-1 .total-pool { 
             color: var(--gold);
-            font-size: 3rem;
+            font-size: 3.5rem;
         }
-        .rank-2 .tip-amount { 
+        .rank-2 .total-pool { 
             color: var(--silver);
-            font-size: 2.8rem;
+            font-size: 3.3rem;
         }
-        .rank-3 .tip-amount { 
+        .rank-3 .total-pool { 
             color: var(--bronze);
-            font-size: 2.6rem;
+            font-size: 3.1rem;
+        }
+
+        .pool-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: right;
+        }
+
+        /* Top contributors section */
+        .contributors {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--black-lighter);
+        }
+
+        .contributors-label {
+            font-size: 0.85rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            min-width: 120px;
+        }
+
+        .contributors-list {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+
+        .contributor {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--black);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            border: 1px solid var(--black-lighter);
+            transition: all 0.3s ease;
+        }
+
+        .contributor:hover {
+            border-color: var(--yellow);
+            transform: translateY(-2px);
+        }
+
+        .contributor-pic {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid var(--yellow);
+            object-fit: cover;
+        }
+
+        .contributor.top-tipper .contributor-pic {
+            border-color: var(--yellow-bright);
+            box-shadow: 0 0 8px rgba(255, 214, 0, 0.5);
+        }
+
+        .contributor-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--yellow);
+        }
+
+        .contributor.top-tipper .contributor-name {
+            color: var(--yellow-bright);
+        }
+
+        .contributor-amount {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem;
+            color: var(--yellow);
+            margin-left: 0.3rem;
+        }
+
+        .contributor.top-tipper .contributor-amount {
+            color: var(--yellow-bright);
+            font-size: 1.2rem;
+        }
+
+        .top-tipper-badge {
+            background: var(--yellow);
+            color: var(--black);
+            font-size: 0.7rem;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 800;
+            margin-left: 0.2rem;
         }
 
         /* Add tip CTA */
@@ -450,9 +585,8 @@
                 font-size: 3.5rem;
             }
 
-            .leaderboard-item {
+            .song-header {
                 flex-wrap: wrap;
-                padding: 1rem;
             }
 
             .rank {
@@ -460,15 +594,47 @@
                 min-width: 40px;
             }
 
-            .tip-amount {
-                font-size: 2rem;
-                min-width: 100px;
+            .album-art {
+                width: 60px;
+                height: 60px;
             }
 
-            .rank-1 .tip-amount,
-            .rank-2 .tip-amount,
-            .rank-3 .tip-amount {
+            .rank-1 .album-art,
+            .rank-2 .album-art,
+            .rank-3 .album-art {
+                width: 70px;
+                height: 70px;
+            }
+
+            .song-title {
+                font-size: 1.4rem;
+            }
+
+            .rank-1 .song-title {
+                font-size: 1.6rem;
+            }
+
+            .total-pool {
                 font-size: 2.2rem;
+            }
+
+            .rank-1 .total-pool,
+            .rank-2 .total-pool,
+            .rank-3 .total-pool {
+                font-size: 2.5rem;
+            }
+
+            .contributors {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .contributors-label {
+                min-width: auto;
+            }
+
+            .pool-stats {
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -497,98 +663,290 @@
 
         <div class="stats">
             <div class="stat-card">
-                <div class="stat-value">8</div>
+                <div class="stat-value">6</div>
                 <div class="stat-label">Songs Queued</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">$245</div>
-                <div class="stat-label">Total Tips</div>
+                <div class="stat-value">$450</div>
+                <div class="stat-label">Total Pool</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">12</div>
+                <div class="stat-value">18</div>
                 <div class="stat-label">Active Tippers</div>
             </div>
         </div>
 
         <div class="leaderboard">
             <div class="leaderboard-item rank-1">
-                <div class="rank">1</div>
-                <img src="https://i.pravatar.cc/150?img=12" alt="Profile" class="profile-pic">
-                <div class="info">
-                    <div class="username">@musiclover_sarah</div>
-                    <div class="song-name">Bohemian Rhapsody - Queen</div>
+                <div class="song-header">
+                    <div class="rank">1</div>
+                    <img src="https://picsum.photos/seed/bohemian/200/200" alt="Album Art" class="album-art">
+                    <div class="song-info">
+                        <div class="song-title">Bohemian Rhapsody</div>
+                        <div class="song-artist">Queen</div>
+                        <div class="pool-stats">
+                            <div class="pool-stat">
+                                <span class="pool-stat-icon">👥</span>
+                                <span>5 Contributors</span>
+                            </div>
+                            <div class="pool-stat">
+                                <span class="pool-stat-icon">⚡</span>
+                                <span>Last tip: 2m ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="total-pool">$125</div>
+                        <div class="pool-label">Total Pool</div>
+                    </div>
                 </div>
-                <div class="tip-amount">$50</div>
+                <div class="contributors">
+                    <div class="contributors-label">Top Contributors:</div>
+                    <div class="contributors-list">
+                        <div class="contributor top-tipper">
+                            <img src="https://i.pravatar.cc/150?img=12" alt="Profile" class="contributor-pic">
+                            <span class="contributor-name">@sarah_music</span>
+                            <span class="contributor-amount">$50</span>
+                            <span class="top-tipper-badge">TOP</span>
+                        </div>
+                        <div class="contributor">
+                            <img src="https://i.pravatar.cc/150?img=68" alt="Profile" class="contributor-pic">
+                            <span class="contributor-name">@mike_rocks</span>
+                            <span class="contributor-amount">$35</span>
+                        </div>
+                        <div class="contributor">
+                            <img src="https://i.pravatar.cc/150?img=31" alt="Profile" class="contributor-pic">
+                            <span class="contributor-name">@jenny_cool</span>
+                            <span class="contributor-amount">$25</span>
+                        </div>
+                        <div class="contributor">
+                            <img src="https://i.pravatar.cc/150?img=5" alt="Profile" class="contributor-pic">
+                            <span class="contributor-name">@alex_tunes</span>
+                            <span class="contributor-amount">$10</span>
+                        </div>
+                        <div class="contributor">
+                            <span style="color: var(--gray); font-size: 0.85rem;">+1 more</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="leaderboard-item rank-2">
-                <div class="rank">2</div>
-                <img src="https://i.pravatar.cc/150?img=33" alt="Profile" class="profile-pic">
-                <div class="info">
-                    <div class="username">@jakethegreat</div>
-                    <div class="song-name">Wonderwall - Oasis</div>
+                <div class="song-header">
+                    <div class="rank">2</div>
+                    <img src="https://picsum.photos/seed/wonderwall/200/200" alt="Album Art" class="album-art">
+                    <div class="song-info">
+                        <div class="song-title">Wonderwall</div>
+                        <div class="song-artist">Oasis</div>
+                        <div class="pool-stats">
+                            <div class="pool-stat">
+                                <span class="pool-stat-icon">👥</span>
+                                <span>3 Contributors</span>
+                            </div>
+                            <div class="pool-stat">
+                                <span class="pool-stat-icon">⚡</span>
+                                <span>Last tip: 5m ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="total-pool">$95</div>
+                        <div class="pool-label">Total Pool</div>
+                    </div>
                 </div>
-                <div class="tip-amount">$45</div>
+                <div class="contributors">
+                    <div class="contributors-label">Top Contributors:</div>
+                    <div class="contributors-list">
+                        <div class="contributor top-tipper">
+                            <img src="https://i.pravatar.cc/150?img=33" alt="Profile" class="contributor-pic">
+                            <span class="contributor-name">@jakethegreat</span>
+                            <span class="contributor-amount">$45</span>
+                            <span class="top-tipper-badge">TOP</span>
+                        </div>
+                        <div class="contributor">
+                            <img src="https://i.pravatar.cc/150?img=20" alt="Profile" class="contributor-pic">
+                            <span class="contributor-name">@samantha_98</span>
+                            <span class="contributor-amount">$30</span>
+                        </div>
+                        <div class="contributor">
+                            <img src="https://i.pravatar.cc/150?img=15" alt="Profile" class="contributor-pic">
+                            <span class="contributor-name">@davidmusic</span>
+                            <span class="contributor-amount">$20</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="leaderboard-item rank-3">
-                <div class="rank">3</div>
-                <img src="https://i.pravatar.cc/150?img=47" alt="Profile" class="profile-pic">
-                <div class="info">
-                    <div class="username">@emma_vibes</div>
-                    <div class="song-name">Hey There Delilah - Plain White T's</div>
+                <div class="song-header">
+                    <div class="rank">3</div>
+                    <img src="https://picsum.photos/seed/delilah/200/200" alt="Album Art" class="album-art">
+                    <div class="song-info">
+                        <div class="song-title">Hey There Delilah</div>
+                        <div class="song-artist">Plain White T's</div>
+                        <div class="pool-stats">
+                            <div class="pool-stat">
+                                <span class="pool-stat-icon">👥</span>
+                                <span>4 Contributors</span>
+                            </div>
+                            <div class="pool-stat">
+                                <span class="pool-stat-icon">⚡</span>
+                                <span>Last tip: 8m ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="total-pool">$85</div>
+                        <div class="pool-label">Total Pool</div>
+                    </div>
                 </div>
-                <div class="tip-amount">$40</div>
+                <div class="contributors">
+                    <div class="contributors-label">Top Contributors:</div>
+                    <div class="contributors-list">
+                        <div class="contributor top-tipper">
+                            <img src="https://i.pravatar.cc/150?img=47" alt="Profile" class="contributor-pic">
+                            <span class="contributor-name">@emma_vibes</span>
+                            <span class="contributor-amount">$40</span>
+                            <span class="top-tipper-badge">TOP</span>
+                        </div>
+                        <div class="contributor">
+                            <img src="https://i.pravatar.cc/150?img=8" alt="Profile" class="contributor-pic">
+                            <span class="contributor-name">@chris_live</span>
+                            <span class="contributor-amount">$25</span>
+                        </div>
+                        <div class="contributor">
+                            <img src="https://i.pravatar.cc/150?img=42" alt="Profile" class="contributor-pic">
+                            <span class="contributor-name">@lisa_beats</span>
+                            <span class="contributor-amount">$15</span>
+                        </div>
+                        <div class="contributor">
+                            <span style="color: var(--gray); font-size: 0.85rem;">+1 more</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="leaderboard-item">
-                <div class="rank">4</div>
-                <img src="https://i.pravatar.cc/150?img=68" alt="Profile" class="profile-pic">
-                <div class="info">
-                    <div class="username">@michael_rocks</div>
-                    <div class="song-name">Hotel California - Eagles</div>
+                <div class="song-header">
+                    <div class="rank">4</div>
+                    <img src="https://picsum.photos/seed/hotel/200/200" alt="Album Art" class="album-art">
+                    <div class="song-info">
+                        <div class="song-title">Hotel California</div>
+                        <div class="song-artist">Eagles</div>
+                        <div class="pool-stats">
+                            <div class="pool-stat">
+                                <span class="pool-stat-icon">👥</span>
+                                <span>2 Contributors</span>
+                            </div>
+                            <div class="pool-stat">
+                                <span class="pool-stat-icon">⚡</span>
+                                <span>Last tip: 12m ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="total-pool">$60</div>
+                        <div class="pool-label">Total Pool</div>
+                    </div>
                 </div>
-                <div class="tip-amount">$35</div>
+                <div class="contributors">
+                    <div class="contributors-label">Top Contributors:</div>
+                    <div class="contributors-list">
+                        <div class="contributor top-tipper">
+                            <img src="https://i.pravatar.cc/150?img=68" alt="Profile" class="contributor-pic">
+                            <span class="contributor-name">@michael_rocks</span>
+                            <span class="contributor-amount">$35</span>
+                            <span class="top-tipper-badge">TOP</span>
+                        </div>
+                        <div class="contributor">
+                            <img src="https://i.pravatar.cc/150?img=25" alt="Profile" class="contributor-pic">
+                            <span class="contributor-name">@rachel_m</span>
+                            <span class="contributor-amount">$25</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="leaderboard-item">
-                <div class="rank">5</div>
-                <img src="https://i.pravatar.cc/150?img=5" alt="Profile" class="profile-pic">
-                <div class="info">
-                    <div class="username">@alex_tunes</div>
-                    <div class="song-name">Sweet Caroline - Neil Diamond</div>
+                <div class="song-header">
+                    <div class="rank">5</div>
+                    <img src="https://picsum.photos/seed/caroline/200/200" alt="Album Art" class="album-art">
+                    <div class="song-info">
+                        <div class="song-title">Sweet Caroline</div>
+                        <div class="song-artist">Neil Diamond</div>
+                        <div class="pool-stats">
+                            <div class="pool-stat">
+                                <span class="pool-stat-icon">👥</span>
+                                <span>1 Contributor</span>
+                            </div>
+                            <div class="pool-stat">
+                                <span class="pool-stat-icon">⚡</span>
+                                <span>Last tip: 15m ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="total-pool">$45</div>
+                        <div class="pool-label">Total Pool</div>
+                    </div>
                 </div>
-                <div class="tip-amount">$25</div>
+                <div class="contributors">
+                    <div class="contributors-label">Top Contributors:</div>
+                    <div class="contributors-list">
+                        <div class="contributor top-tipper">
+                            <img src="https://i.pravatar.cc/150?img=5" alt="Profile" class="contributor-pic">
+                            <span class="contributor-name">@alex_tunes</span>
+                            <span class="contributor-amount">$45</span>
+                            <span class="top-tipper-badge">TOP</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="leaderboard-item">
-                <div class="rank">6</div>
-                <img src="https://i.pravatar.cc/150?img=20" alt="Profile" class="profile-pic">
-                <div class="info">
-                    <div class="username">@samantha_98</div>
-                    <div class="song-name">Mr. Brightside - The Killers</div>
+                <div class="song-header">
+                    <div class="rank">6</div>
+                    <img src="https://picsum.photos/seed/brightside/200/200" alt="Album Art" class="album-art">
+                    <div class="song-info">
+                        <div class="song-title">Mr. Brightside</div>
+                        <div class="song-artist">The Killers</div>
+                        <div class="pool-stats">
+                            <div class="pool-stat">
+                                <span class="pool-stat-icon">👥</span>
+                                <span>3 Contributors</span>
+                            </div>
+                            <div class="pool-stat">
+                                <span class="pool-stat-icon">⚡</span>
+                                <span>Last tip: 18m ago</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="total-pool">$40</div>
+                        <div class="pool-label">Total Pool</div>
+                    </div>
                 </div>
-                <div class="tip-amount">$20</div>
-            </div>
-
-            <div class="leaderboard-item">
-                <div class="rank">7</div>
-                <img src="https://i.pravatar.cc/150?img=15" alt="Profile" class="profile-pic">
-                <div class="info">
-                    <div class="username">@davidmusic</div>
-                    <div class="song-name">Don't Stop Believin' - Journey</div>
+                <div class="contributors">
+                    <div class="contributors-label">Top Contributors:</div>
+                    <div class="contributors-list">
+                        <div class="contributor top-tipper">
+                            <img src="https://i.pravatar.cc/150?img=20" alt="Profile" class="contributor-pic">
+                            <span class="contributor-name">@samantha_98</span>
+                            <span class="contributor-amount">$20</span>
+                            <span class="top-tipper-badge">TOP</span>
+                        </div>
+                        <div class="contributor">
+                            <img src="https://i.pravatar.cc/150?img=50" alt="Profile" class="contributor-pic">
+                            <span class="contributor-name">@tom_j</span>
+                            <span class="contributor-amount">$12</span>
+                        </div>
+                        <div class="contributor">
+                            <img src="https://i.pravatar.cc/150?img=18" alt="Profile" class="contributor-pic">
+                            <span class="contributor-name">@kate_w</span>
+                            <span class="contributor-amount">$8</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="tip-amount">$15</div>
-            </div>
-
-            <div class="leaderboard-item">
-                <div class="rank">8</div>
-                <img src="https://i.pravatar.cc/150?img=31" alt="Profile" class="profile-pic">
-                <div class="info">
-                    <div class="username">@jenny_cool</div>
-                    <div class="song-name">Hallelujah - Jeff Buckley</div>
-                </div>
-                <div class="tip-amount">$15</div>
             </div>
         </div>
 
