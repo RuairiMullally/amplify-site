@@ -558,6 +558,398 @@
             box-shadow: 3px 3px 0 var(--yellow-bright);
         }
 
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--black-light);
+            border: 3px solid var(--yellow);
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideInUp 0.4s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: var(--yellow);
+            color: var(--black);
+            padding: 2rem;
+            position: relative;
+        }
+
+        .modal-header h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            letter-spacing: 3px;
+            margin: 0;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--black);
+            color: var(--yellow);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+            background: var(--yellow);
+            color: var(--black);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--yellow);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 1rem;
+            background: var(--black);
+            border: 2px solid var(--black-lighter);
+            color: var(--yellow);
+            font-family: 'Manrope', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--yellow);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .tip-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+        }
+
+        .tip-option {
+            background: var(--black);
+            border: 2px solid var(--black-lighter);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tip-option:hover {
+            border-color: var(--yellow);
+            transform: translateY(-5px);
+        }
+
+        .tip-option.selected {
+            background: var(--yellow);
+            border-color: var(--yellow);
+        }
+
+        .tip-option.selected .tip-amount-text {
+            color: var(--black);
+        }
+
+        .tip-amount-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--yellow);
+            transition: color 0.3s ease;
+        }
+
+        .tip-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-top: 0.3rem;
+        }
+
+        .custom-tip-input {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .custom-tip-input .form-input {
+            flex: 1;
+        }
+
+        .dollar-sign {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--yellow);
+        }
+
+        .song-search {
+            position: relative;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--black);
+            border: 2px solid var(--yellow);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 10;
+            display: none;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--black-lighter);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-result-item:hover {
+            background: var(--black-lighter);
+        }
+
+        .search-result-item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            border: 2px solid var(--yellow);
+        }
+
+        .search-result-info {
+            flex: 1;
+        }
+
+        .search-result-title {
+            color: var(--yellow);
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .search-result-artist {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .pool-info {
+            background: var(--black);
+            border: 2px solid var(--yellow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pool-info-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem;
+            color: var(--yellow);
+            margin-bottom: 0.5rem;
+        }
+
+        .pool-info-text {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .current-pool {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--black-lighter);
+        }
+
+        .current-pool-label {
+            color: var(--gray);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .current-pool-amount {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--yellow);
+        }
+
+        .submit-section {
+            background: var(--black);
+            padding: 1.5rem;
+            margin: 0 -2rem -2rem;
+            border-top: 2px solid var(--black-lighter);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-submit {
+            flex: 1;
+            padding: 1.2rem;
+            font-size: 1.2rem;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            font-family: 'Manrope', sans-serif;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            background: var(--yellow);
+            color: var(--black);
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            background: var(--yellow-bright);
+            transform: translateY(-2px);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-cancel {
+            padding: 1.2rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 2px solid var(--gray);
+            background: transparent;
+            color: var(--gray);
+            cursor: pointer;
+            font-family: 'Manrope', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            border-color: var(--yellow);
+            color: var(--yellow);
+        }
+
+        .selected-song-display {
+            background: var(--black);
+            border: 2px solid var(--yellow);
+            padding: 1rem;
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .selected-song-display.active {
+            display: flex;
+        }
+
+        .selected-song-display img {
+            width: 60px;
+            height: 60px;
+            border-radius: 4px;
+        }
+
+        .selected-song-info {
+            flex: 1;
+        }
+
+        .selected-song-title {
+            color: var(--yellow);
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .selected-song-artist {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .remove-song {
+            background: transparent;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .remove-song:hover {
+            color: var(--yellow);
+            transform: rotate(90deg);
+        }
+
         /* Footer */
         footer {
             text-align: center;
@@ -951,8 +1343,279 @@
         </div>
 
         <div class="add-tip-cta">
-            <button class="btn">ADD YOUR REQUEST</button>
+            <button class="btn" id="openModalBtn">ADD YOUR REQUEST</button>
         </div>
+
+        <!-- Add Request Modal -->
+        <div class="modal" id="requestModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>ADD YOUR REQUEST</h2>
+                    <button class="modal-close" id="closeModalBtn">×</button>
+                </div>
+                <div class="modal-body">
+                    <!-- Song Selection -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">1. Choose Your Song</h3>
+                        <div class="form-group">
+                            <label class="form-label">Search for a song</label>
+                            <div class="song-search">
+                                <input 
+                                    type="text" 
+                                    class="form-input" 
+                                    id="songSearch"
+                                    placeholder="Enter song title or artist..."
+                                >
+                                <div class="search-results" id="searchResults">
+                                    <!-- Results will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="selected-song-display" id="selectedSongDisplay">
+                            <img id="selectedSongArt" src="" alt="Album Art">
+                            <div class="selected-song-info">
+                                <div class="selected-song-title" id="selectedSongTitle"></div>
+                                <div class="selected-song-artist" id="selectedSongArtist"></div>
+                            </div>
+                            <button class="remove-song" id="removeSongBtn">×</button>
+                        </div>
+                    </div>
+
+                    <!-- Pool Info (shown when song already has tips) -->
+                    <div class="pool-info" id="poolInfo" style="display: none;">
+                        <div class="pool-info-title">🎵 This song is already on the leaderboard!</div>
+                        <p class="pool-info-text">Your tip will be added to the existing pool. Become the top contributor to show your support!</p>
+                        <div class="current-pool">
+                            <span class="current-pool-label">Current Pool:</span>
+                            <span class="current-pool-amount" id="currentPoolAmount">$0</span>
+                        </div>
+                    </div>
+
+                    <!-- Tip Amount Selection -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">2. Choose Your Tip</h3>
+                        <div class="tip-options">
+                            <div class="tip-option" data-amount="5">
+                                <div class="tip-amount-text">$5</div>
+                                <div class="tip-label">Starter</div>
+                            </div>
+                            <div class="tip-option" data-amount="10">
+                                <div class="tip-amount-text">$10</div>
+                                <div class="tip-label">Nice</div>
+                            </div>
+                            <div class="tip-option" data-amount="20">
+                                <div class="tip-amount-text">$20</div>
+                                <div class="tip-label">Great</div>
+                            </div>
+                            <div class="tip-option" data-amount="50">
+                                <div class="tip-amount-text">$50</div>
+                                <div class="tip-label">Epic</div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 1rem;">
+                            <label class="form-label">Or enter custom amount</label>
+                            <div class="custom-tip-input">
+                                <span class="dollar-sign">$</span>
+                                <input 
+                                    type="number" 
+                                    class="form-input" 
+                                    id="customTip"
+                                    placeholder="Enter amount"
+                                    min="1"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Optional Message -->
+                    <div class="form-section">
+                        <h3 class="form-section-title">3. Add a Message (Optional)</h3>
+                        <div class="form-group">
+                            <label class="form-label">Message to the artist</label>
+                            <textarea 
+                                class="form-textarea" 
+                                id="tipMessage"
+                                placeholder="Leave a message for the musician..."
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submit-section">
+                    <button class="btn-cancel" id="cancelBtn">Cancel</button>
+                    <button class="btn-submit" id="submitBtn" disabled>SUBMIT REQUEST</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Sample song database
+            const songs = [
+                { id: 1, title: "Bohemian Rhapsody", artist: "Queen", img: "https://picsum.photos/seed/bohemian/200/200", pool: 125 },
+                { id: 2, title: "Wonderwall", artist: "Oasis", img: "https://picsum.photos/seed/wonderwall/200/200", pool: 95 },
+                { id: 3, title: "Hey There Delilah", artist: "Plain White T's", img: "https://picsum.photos/seed/delilah/200/200", pool: 85 },
+                { id: 4, title: "Hotel California", artist: "Eagles", img: "https://picsum.photos/seed/hotel/200/200", pool: 60 },
+                { id: 5, title: "Sweet Caroline", artist: "Neil Diamond", img: "https://picsum.photos/seed/caroline/200/200", pool: 45 },
+                { id: 6, title: "Mr. Brightside", artist: "The Killers", img: "https://picsum.photos/seed/brightside/200/200", pool: 40 },
+                { id: 7, title: "Don't Stop Believin'", artist: "Journey", img: "https://picsum.photos/seed/journey/200/200", pool: 0 },
+                { id: 8, title: "Hallelujah", artist: "Jeff Buckley", img: "https://picsum.photos/seed/hallelujah/200/200", pool: 0 },
+                { id: 9, title: "Creep", artist: "Radiohead", img: "https://picsum.photos/seed/creep/200/200", pool: 0 },
+                { id: 10, title: "Someone Like You", artist: "Adele", img: "https://picsum.photos/seed/adele/200/200", pool: 0 },
+                { id: 11, title: "Blackbird", artist: "The Beatles", img: "https://picsum.photos/seed/blackbird/200/200", pool: 0 },
+                { id: 12, title: "Fast Car", artist: "Tracy Chapman", img: "https://picsum.photos/seed/fastcar/200/200", pool: 0 },
+            ];
+
+            // Modal controls
+            const modal = document.getElementById('requestModal');
+            const openBtn = document.getElementById('openModalBtn');
+            const closeBtn = document.getElementById('closeModalBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+
+            openBtn.addEventListener('click', () => {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            function closeModal() {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                resetForm();
+            }
+
+            closeBtn.addEventListener('click', closeModal);
+            cancelBtn.addEventListener('click', closeModal);
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            // Song search functionality
+            const songSearch = document.getElementById('songSearch');
+            const searchResults = document.getElementById('searchResults');
+            const selectedSongDisplay = document.getElementById('selectedSongDisplay');
+            const poolInfo = document.getElementById('poolInfo');
+            let selectedSong = null;
+
+            songSearch.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                
+                if (query.length < 2) {
+                    searchResults.classList.remove('active');
+                    return;
+                }
+
+                const filtered = songs.filter(song => 
+                    song.title.toLowerCase().includes(query) || 
+                    song.artist.toLowerCase().includes(query)
+                );
+
+                if (filtered.length > 0) {
+                    searchResults.innerHTML = filtered.map(song => `
+                        <div class="search-result-item" data-song-id="${song.id}">
+                            <img src="${song.img}" alt="${song.title}">
+                            <div class="search-result-info">
+                                <div class="search-result-title">${song.title}</div>
+                                <div class="search-result-artist">${song.artist}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                    searchResults.classList.add('active');
+
+                    // Add click handlers
+                    searchResults.querySelectorAll('.search-result-item').forEach(item => {
+                        item.addEventListener('click', () => {
+                            const songId = parseInt(item.dataset.songId);
+                            selectSong(songs.find(s => s.id === songId));
+                        });
+                    });
+                } else {
+                    searchResults.innerHTML = '<div style="padding: 1rem; color: var(--gray);">No songs found</div>';
+                    searchResults.classList.add('active');
+                }
+            });
+
+            function selectSong(song) {
+                selectedSong = song;
+                songSearch.value = '';
+                searchResults.classList.remove('active');
+                
+                document.getElementById('selectedSongArt').src = song.img;
+                document.getElementById('selectedSongTitle').textContent = song.title;
+                document.getElementById('selectedSongArtist').textContent = song.artist;
+                selectedSongDisplay.classList.add('active');
+
+                // Show pool info if song already has tips
+                if (song.pool > 0) {
+                    document.getElementById('currentPoolAmount').textContent = '$' + song.pool;
+                    poolInfo.style.display = 'block';
+                } else {
+                    poolInfo.style.display = 'none';
+                }
+
+                validateForm();
+            }
+
+            document.getElementById('removeSongBtn').addEventListener('click', () => {
+                selectedSong = null;
+                selectedSongDisplay.classList.remove('active');
+                poolInfo.style.display = 'none';
+                validateForm();
+            });
+
+            // Tip selection
+            let selectedTipAmount = 0;
+
+            document.querySelectorAll('.tip-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('.tip-option').forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                    selectedTipAmount = parseInt(option.dataset.amount);
+                    document.getElementById('customTip').value = '';
+                    validateForm();
+                });
+            });
+
+            document.getElementById('customTip').addEventListener('input', (e) => {
+                const amount = parseInt(e.target.value);
+                if (amount > 0) {
+                    document.querySelectorAll('.tip-option').forEach(o => o.classList.remove('selected'));
+                    selectedTipAmount = amount;
+                } else {
+                    selectedTipAmount = 0;
+                }
+                validateForm();
+            });
+
+            // Form validation
+            function validateForm() {
+                const submitBtn = document.getElementById('submitBtn');
+                const isValid = selectedSong && selectedTipAmount > 0;
+                submitBtn.disabled = !isValid;
+            }
+
+            // Form submission
+            document.getElementById('submitBtn').addEventListener('click', () => {
+                const message = document.getElementById('tipMessage').value;
+                
+                // In a real app, this would submit to a server
+                alert(`Request submitted!\n\nSong: ${selectedSong.title} by ${selectedSong.artist}\nTip: $${selectedTipAmount}\nMessage: ${message || 'None'}`);
+                
+                closeModal();
+            });
+
+            function resetForm() {
+                selectedSong = null;
+                selectedTipAmount = 0;
+                songSearch.value = '';
+                document.getElementById('customTip').value = '';
+                document.getElementById('tipMessage').value = '';
+                selectedSongDisplay.classList.remove('active');
+                poolInfo.style.display = 'none';
+                searchResults.classList.remove('active');
+                document.querySelectorAll('.tip-option').forEach(o => o.classList.remove('selected'));
+                validateForm();
+            }
+        </script>
 
         <footer>
             <p>&copy; 2025 Amplify. Support the music.</p>
