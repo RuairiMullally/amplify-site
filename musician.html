@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musician Dashboard - Amplify</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --yellow: #FFD600;
+            --yellow-bright: #FFEB3B;
+            --black: #0A0A0A;
+            --black-light: #1a1a1a;
+            --black-lighter: #2a2a2a;
+            --gray: #808080;
+            --green: #4CAF50;
+            --red: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--yellow);
+            font-family: 'Manrope', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.02;
+            background-image: 
+                radial-gradient(circle at 20% 50%, var(--yellow) 1px, transparent 1px),
+                radial-gradient(circle at 80% 80%, var(--yellow) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: patternMove 20s linear infinite;
+        }
+
+        @keyframes patternMove {
+            0% { background-position: 0 0, 25px 25px; }
+            100% { background-position: 50px 50px, 75px 75px; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            letter-spacing: 3px;
+            position: relative;
+            text-decoration: none;
+            color: var(--yellow);
+            text-shadow: 4px 4px 0 var(--yellow-bright);
+        }
+
+        nav {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--yellow);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--yellow);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--yellow-bright);
+        }
+
+        nav a:hover::before {
+            width: 100%;
+        }
+
+        .nav-badge {
+            background: var(--yellow);
+            color: var(--black);
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            margin-left: 0.3rem;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 3rem 0 2rem;
+            animation: fadeIn 1s ease-out 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .page-header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4rem;
+            letter-spacing: 5px;
+            margin-bottom: 0.5rem;
+            text-shadow: 5px 5px 0 rgba(255, 214, 0, 0.3);
+        }
+
+        .page-header p {
+            color: var(--gray);
+            font-size: 1.2rem;
+        }
+
+        /* Stats Dashboard */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0 3rem;
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-card {
+            background: var(--black-light);
+            border: 2px solid var(--black-lighter);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--yellow);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--yellow);
+            transform: translateY(-5px);
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--yellow);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--black-lighter);
+            animation: fadeIn 0.8s ease-out 0.6s both;
+        }
+
+        .tab {
+            background: transparent;
+            border: none;
+            color: var(--gray);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tab::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--yellow);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .tab:hover {
+            color: var(--yellow);
+        }
+
+        .tab.active {
+            color: var(--yellow);
+        }
+
+        .tab.active::after {
+            transform: scaleX(1);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 800;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Manrope', sans-serif;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            background: var(--yellow);
+            color: var(--black);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background: var(--yellow-bright);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--yellow);
+            color: var(--yellow);
+        }
+
+        .btn-secondary:hover {
+            background: var(--yellow);
+            color: var(--black);
+        }
+
+        /* Catalog Grid */
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .song-card {
+            background: var(--black-light);
+            border: 2px solid var(--black-lighter);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .song-card:hover {
+            border-color: var(--yellow);
+            transform: translateY(-5px);
+        }
+
+        .song-card-header {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .song-card-art {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            border: 2px solid var(--yellow);
+            object-fit: cover;
+        }
+
+        .song-card-info {
+            flex: 1;
+        }
+
+        .song-card-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--yellow);
+            margin-bottom: 0.3rem;
+            letter-spacing: 1px;
+        }
+
+        .song-card-artist {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .song-card-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--black-lighter);
+            font-size: 0.85rem;
+        }
+
+        .song-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--gray);
+        }
+
+        .song-stat-value {
+            color: var(--yellow);
+            font-weight: 600;
+        }
+
+        .song-card-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            flex: 1;
+        }
+
+        .btn-danger {
+            background: var(--red);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #d32f2f;
+        }
+
+        /* Settings Section */
+        .settings-grid {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .setting-card {
+            background: var(--black-light);
+            border: 2px solid var(--black-lighter);
+            padding: 2rem;
+        }
+
+        .setting-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            color: var(--yellow);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .setting-card p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 1rem;
+            background: var(--black);
+            border: 2px solid var(--black-lighter);
+            color: var(--yellow);
+            font-family: 'Manrope', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--yellow);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray);
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: var(--black);
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--yellow);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--black-lighter);
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info h4 {
+            color: var(--yellow);
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+
+        .setting-info p {
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--black-light);
+            border: 3px solid var(--yellow);
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideInUp 0.4s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            background: var(--yellow);
+            color: var(--black);
+            padding: 2rem;
+            position: relative;
+        }
+
+        .modal-header h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            letter-spacing: 3px;
+            margin: 0;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--black);
+            color: var(--yellow);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+            background: var(--yellow);
+            color: var(--black);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .submit-section {
+            background: var(--black);
+            padding: 1.5rem;
+            margin: 0 -2rem -2rem;
+            border-top: 2px solid var(--black-lighter);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-submit {
+            flex: 1;
+            padding: 1.2rem;
+            font-size: 1.2rem;
+        }
+
+        .btn-cancel {
+            padding: 1.2rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 2px solid var(--gray);
+            background: transparent;
+            color: var(--gray);
+            cursor: pointer;
+            font-family: 'Manrope', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            border-color: var(--yellow);
+            color: var(--yellow);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray);
+        }
+
+        .empty-state-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--yellow);
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .page-header h1 {
+                font-size: 3rem;
+            }
+
+            .tabs {
+                overflow-x: auto;
+            }
+
+            .tab {
+                font-size: 1.2rem;
+                padding: 0.8rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+
+    <div class="container">
+        <header>
+            <a href="index.html" class="logo">AMPLIFY</a>
+            <nav>
+                <a href="leaderboard.html">Leaderboard</a>
+                <a href="musician.html">Dashboard</a>
+                <a href="index.html">Logout</a>
+            </nav>
+        </header>
+
+        <div class="page-header">
+            <h1>MUSICIAN DASHBOARD</h1>
+            <p>Manage your catalog, settings, and performance</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value">$450</div>
+                <div class="stat-label">Total Tips Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎵</div>
+                <div class="stat-value">6</div>
+                <div class="stat-label">Songs in Queue</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-value">18</div>
+                <div class="stat-label">Active Tippers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-value">24</div>
+                <div class="stat-label">Songs in Catalog</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" data-tab="catalog">Catalog</button>
+            <button class="tab" data-tab="settings">Settings</button>
+            <button class="tab" data-tab="analytics">Analytics</button>
+        </div>
+
+        <!-- Catalog Tab -->
+        <div class="tab-content active" id="catalog">
+            <div class="section-header">
+                <h2 class="section-title">Your Song Catalog</h2>
+                <button class="btn" id="addSongBtn">+ Add Song</button>
+            </div>
+
+            <div class="catalog-grid" id="catalogGrid">
+                <!-- Songs will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div class="tab-content" id="settings">
+            <div class="section-header">
+                <h2 class="section-title">Performance Settings</h2>
+            </div>
+
+            <div class="settings-grid">
+                <div class="setting-card">
+                    <h3>Tipping Rules</h3>
+                    <p>Configure minimum tip amounts and pool behavior</p>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Minimum Tip Amount</label>
+                        <input type="number" class="form-input" id="minTip" value="5" min="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Maximum Pool Size</label>
+                        <input type="number" class="form-input" id="maxPool" value="500" min="0" placeholder="0 for unlimited">
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Allow Tip Pooling</h4>
+                            <p>Let multiple people contribute to the same song request</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Show Top Contributor</h4>
+                            <p>Display the highest tipper on each song</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <button class="btn" style="margin-top: 1rem;">Save Tipping Rules</button>
+                </div>
+
+                <div class="setting-card">
+                    <h3>Queue Management</h3>
+                    <p>Control how song requests are handled</p>
+
+                    <div class="form-group">
+                        <label class="form-label">Auto-Play Next Song</label>
+                        <select class="form-select">
+                            <option value="highest">Highest Pool Amount</option>
+                            <option value="oldest">Oldest Request First</option>
+                            <option value="manual">Manual Selection</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Maximum Queue Size</label>
+                        <input type="number" class="form-input" value="20" min="1">
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Accept New Requests</h4>
+                            <p>Allow audience to add new song requests</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Allow Duplicate Songs</h4>
+                            <p>Let the same song appear multiple times in queue</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <button class="btn" style="margin-top: 1rem;">Save Queue Settings</button>
+                </div>
+
+                <div class="setting-card">
+                    <h3>Display Preferences</h3>
+                    <p>Customize what the audience sees on the leaderboard</p>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Show Tip Amounts</h4>
+                            <p>Display individual contribution amounts publicly</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Show Tipper Names</h4>
+                            <p>Display usernames of contributors</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <h4>Show Live Stats</h4>
+                            <p>Display real-time statistics on the leaderboard</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <button class="btn" style="margin-top: 1rem;">Save Display Settings</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div class="tab-content" id="analytics">
+            <div class="section-header">
+                <h2 class="section-title">Performance Analytics</h2>
+            </div>
+
+            <div class="empty-state">
+                <div class="empty-state-icon">📊</div>
+                <h3>Analytics Coming Soon</h3>
+                <p>Track your most requested songs, top tippers, and earnings over time.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Song Modal -->
+    <div class="modal" id="addSongModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>ADD SONG TO CATALOG</h2>
+                <button class="modal-close" id="closeModalBtn">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Song Title</label>
+                    <input type="text" class="form-input" id="songTitle" placeholder="Enter song title">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Artist Name</label>
+                    <input type="text" class="form-input" id="artistName" placeholder="Enter artist name">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Album Art URL (Optional)</label>
+                    <input type="text" class="form-input" id="albumArt" placeholder="https://...">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Genre</label>
+                    <select class="form-select" id="genre">
+                        <option value="">Select genre...</option>
+                        <option value="rock">Rock</option>
+                        <option value="pop">Pop</option>
+                        <option value="country">Country</option>
+                        <option value="jazz">Jazz</option>
+                        <option value="blues">Blues</option>
+                        <option value="folk">Folk</option>
+                        <option value="r&b">R&B</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-info">
+                        <h4>Available for Requests</h4>
+                        <p>Make this song available on the public leaderboard</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="songAvailable" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="submit-section">
+                <button class="btn-cancel" id="cancelBtn">Cancel</button>
+                <button class="btn btn-submit" id="submitSongBtn">Add to Catalog</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample catalog data
+        let catalog = [
+            { id: 1, title: "Bohemian Rhapsody", artist: "Queen", img: "https://picsum.photos/seed/bohemian/200/200", genre: "rock", requests: 12, totalTips: 450, available: true },
+            { id: 2, title: "Wonderwall", artist: "Oasis", img: "https://picsum.photos/seed/wonderwall/200/200", genre: "rock", requests: 8, totalTips: 320, available: true },
+            { id: 3, title: "Hey There Delilah", artist: "Plain White T's", img: "https://picsum.photos/seed/delilah/200/200", genre: "pop", requests: 6, totalTips: 240, available: true },
+            { id: 4, title: "Hotel California", artist: "Eagles", img: "https://picsum.photos/seed/hotel/200/200", genre: "rock", requests: 10, totalTips: 380, available: true },
+            { id: 5, title: "Sweet Caroline", artist: "Neil Diamond", img: "https://picsum.photos/seed/caroline/200/200", genre: "pop", requests: 15, totalTips: 520, available: true },
+            { id: 6, title: "Hallelujah", artist: "Jeff Buckley", img: "https://picsum.photos/seed/hallelujah/200/200", genre: "folk", requests: 4, totalTips: 150, available: true },
+        ];
+
+        // Render catalog
+        function renderCatalog() {
+            const grid = document.getElementById('catalogGrid');
+            grid.innerHTML = catalog.map(song => `
+                <div class="song-card">
+                    <div class="song-card-header">
+                        <img src="${song.img}" alt="${song.title}" class="song-card-art">
+                        <div class="song-card-info">
+                            <div class="song-card-title">${song.title}</div>
+                            <div class="song-card-artist">${song.artist}</div>
+                        </div>
+                    </div>
+                    <div class="song-card-stats">
+                        <div class="song-stat">
+                            <span>🎵</span>
+                            <span class="song-stat-value">${song.requests}</span> requests
+                        </div>
+                        <div class="song-stat">
+                            <span>💰</span>
+                            <span class="song-stat-value">$${song.totalTips}</span> earned
+                        </div>
+                    </div>
+                    <div class="song-card-actions">
+                        <button class="btn btn-small btn-secondary" onclick="editSong(${song.id})">Edit</button>
+                        <button class="btn btn-small ${song.available ? '' : 'btn-danger'}" onclick="toggleAvailability(${song.id})">
+                            ${song.available ? 'Active' : 'Disabled'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Modal controls
+        const modal = document.getElementById('addSongModal');
+        const addBtn = document.getElementById('addSongBtn');
+        const closeBtn = document.getElementById('closeModalBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+
+        addBtn.addEventListener('click', () => {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            resetForm();
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Add song
+        document.getElementById('submitSongBtn').addEventListener('click', () => {
+            const title = document.getElementById('songTitle').value;
+            const artist = document.getElementById('artistName').value;
+            const albumArt = document.getElementById('albumArt').value || `https://picsum.photos/seed/${title.toLowerCase().replace(/\s/g, '')}/200/200`;
+            const genre = document.getElementById('genre').value;
+            const available = document.getElementById('songAvailable').checked;
+
+            if (title && artist) {
+                catalog.push({
+                    id: catalog.length + 1,
+                    title,
+                    artist,
+                    img: albumArt,
+                    genre,
+                    requests: 0,
+                    totalTips: 0,
+                    available
+                });
+
+                renderCatalog();
+                closeModal();
+                
+                // Update stats
+                document.querySelector('.stat-card:nth-child(4) .stat-value').textContent = catalog.length;
+            } else {
+                alert('Please fill in song title and artist name');
+            }
+        });
+
+        function resetForm() {
+            document.getElementById('songTitle').value = '';
+            document.getElementById('artistName').value = '';
+            document.getElementById('albumArt').value = '';
+            document.getElementById('genre').value = '';
+            document.getElementById('songAvailable').checked = true;
+        }
+
+        function toggleAvailability(id) {
+            const song = catalog.find(s => s.id === id);
+            if (song) {
+                song.available = !song.available;
+                renderCatalog();
+            }
+        }
+
+        function editSong(id) {
+            alert(`Edit functionality for song ${id} - Coming soon!`);
+        }
+
+        // Initial render
+        renderCatalog();
+    </script>
+</body>
+</html>
