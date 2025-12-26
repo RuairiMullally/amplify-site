@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - Amplify</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --yellow: #FFD600;
+            --yellow-bright: #FFEB3B;
+            --black: #0A0A0A;
+            --black-light: #1a1a1a;
+            --black-lighter: #2a2a2a;
+            --gray: #808080;
+            --gold: #FFA500;
+            --silver: #C0C0C0;
+            --bronze: #CD7F32;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--yellow);
+            font-family: 'Manrope', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.02;
+            background-image: 
+                radial-gradient(circle at 20% 50%, var(--yellow) 1px, transparent 1px),
+                radial-gradient(circle at 80% 80%, var(--yellow) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: patternMove 20s linear infinite;
+        }
+
+        @keyframes patternMove {
+            0% { background-position: 0 0, 25px 25px; }
+            100% { background-position: 50px 50px, 75px 75px; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 0;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            letter-spacing: 3px;
+            position: relative;
+            text-decoration: none;
+            color: var(--yellow);
+            text-shadow: 4px 4px 0 var(--yellow-bright);
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        nav a {
+            color: var(--yellow);
+            text-decoration: none;
+            margin-left: 2.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--yellow);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--yellow-bright);
+        }
+
+        nav a:hover::before {
+            width: 100%;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            animation: fadeIn 1s ease-out 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .page-header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 5rem;
+            letter-spacing: 5px;
+            margin-bottom: 0.5rem;
+            text-shadow: 5px 5px 0 rgba(255, 214, 0, 0.3);
+        }
+
+        .page-header p {
+            color: var(--gray);
+            font-size: 1.2rem;
+        }
+
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--black-light);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            margin-top: 1rem;
+            border: 2px solid var(--yellow);
+        }
+
+        .live-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--yellow);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.6;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Leaderboard Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+            animation: slideUp 0.8s ease-out 0.4s both;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-card {
+            background: var(--black-light);
+            border: 2px solid var(--black-lighter);
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--yellow);
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--yellow);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Leaderboard */
+        .leaderboard {
+            margin: 3rem 0;
+        }
+
+        .leaderboard-item {
+            background: var(--black-light);
+            border: 2px solid var(--black-lighter);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInScale 0.6s ease-out both;
+        }
+
+        .leaderboard-item:nth-child(1) { animation-delay: 0.6s; }
+        .leaderboard-item:nth-child(2) { animation-delay: 0.7s; }
+        .leaderboard-item:nth-child(3) { animation-delay: 0.8s; }
+        .leaderboard-item:nth-child(4) { animation-delay: 0.9s; }
+        .leaderboard-item:nth-child(5) { animation-delay: 1s; }
+        .leaderboard-item:nth-child(6) { animation-delay: 1.1s; }
+        .leaderboard-item:nth-child(7) { animation-delay: 1.2s; }
+        .leaderboard-item:nth-child(8) { animation-delay: 1.3s; }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .leaderboard-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--yellow);
+            transform: scaleY(0);
+            transition: transform 0.4s ease;
+        }
+
+        .leaderboard-item:hover {
+            border-color: var(--yellow);
+            transform: translateX(10px);
+            box-shadow: -10px 10px 30px rgba(255, 214, 0, 0.15);
+        }
+
+        .leaderboard-item:hover::before {
+            transform: scaleY(1);
+        }
+
+        /* Top 3 special styling */
+        .leaderboard-item.rank-1 {
+            border-color: var(--gold);
+            background: linear-gradient(135deg, var(--black-light) 0%, rgba(255, 165, 0, 0.05) 100%);
+        }
+
+        .leaderboard-item.rank-1::before {
+            background: var(--gold);
+        }
+
+        .leaderboard-item.rank-2 {
+            border-color: var(--silver);
+            background: linear-gradient(135deg, var(--black-light) 0%, rgba(192, 192, 192, 0.05) 100%);
+        }
+
+        .leaderboard-item.rank-2::before {
+            background: var(--silver);
+        }
+
+        .leaderboard-item.rank-3 {
+            border-color: var(--bronze);
+            background: linear-gradient(135deg, var(--black-light) 0%, rgba(205, 127, 50, 0.05) 100%);
+        }
+
+        .leaderboard-item.rank-3::before {
+            background: var(--bronze);
+        }
+
+        .rank {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            min-width: 50px;
+            text-align: center;
+            color: var(--gray);
+        }
+
+        .rank-1 .rank { color: var(--gold); }
+        .rank-2 .rank { color: var(--silver); }
+        .rank-3 .rank { color: var(--bronze); }
+
+        .profile-pic {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid var(--yellow);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .rank-1 .profile-pic { border-color: var(--gold); }
+        .rank-2 .profile-pic { border-color: var(--silver); }
+        .rank-3 .profile-pic { border-color: var(--bronze); }
+
+        .info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .username {
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+            color: var(--yellow);
+        }
+
+        .rank-1 .username { color: var(--gold); }
+        .rank-2 .username { color: var(--silver); }
+        .rank-3 .username { color: var(--bronze); }
+
+        .song-name {
+            color: var(--gray);
+            font-size: 1rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .song-name::before {
+            content: '♪ ';
+        }
+
+        .tip-amount {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: var(--yellow);
+            text-align: right;
+            min-width: 120px;
+            letter-spacing: 1px;
+        }
+
+        .rank-1 .tip-amount { 
+            color: var(--gold);
+            font-size: 3rem;
+        }
+        .rank-2 .tip-amount { 
+            color: var(--silver);
+            font-size: 2.8rem;
+        }
+        .rank-3 .tip-amount { 
+            color: var(--bronze);
+            font-size: 2.6rem;
+        }
+
+        /* Add tip CTA */
+        .add-tip-cta {
+            text-align: center;
+            padding: 3rem 0;
+            animation: fadeIn 1.5s ease-out 1.5s both;
+        }
+
+        .btn {
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Manrope', sans-serif;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            background: var(--yellow);
+            color: var(--black);
+            box-shadow: 6px 6px 0 var(--yellow-bright);
+        }
+
+        .btn:hover {
+            transform: translate(3px, 3px);
+            box-shadow: 3px 3px 0 var(--yellow-bright);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--gray);
+            border-top: 1px solid var(--black-lighter);
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            nav {
+                margin-top: 1rem;
+            }
+
+            nav a {
+                margin-left: 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .page-header h1 {
+                font-size: 3.5rem;
+            }
+
+            .leaderboard-item {
+                flex-wrap: wrap;
+                padding: 1rem;
+            }
+
+            .rank {
+                font-size: 2rem;
+                min-width: 40px;
+            }
+
+            .tip-amount {
+                font-size: 2rem;
+                min-width: 100px;
+            }
+
+            .rank-1 .tip-amount,
+            .rank-2 .tip-amount,
+            .rank-3 .tip-amount {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+
+    <div class="container">
+        <header>
+            <a href="index.html" class="logo">AMPLIFY</a>
+            <nav>
+                <a href="leaderboard.html">Leaderboard</a>
+                <a href="index.html#features">Features</a>
+                <a href="index.html#how">How It Works</a>
+            </nav>
+        </header>
+
+        <div class="page-header">
+            <h1>LEADERBOARD</h1>
+            <p>Real-time song queue ranked by tip amount</p>
+            <div class="live-indicator">
+                <div class="live-dot"></div>
+                <span style="font-weight: 600;">LIVE NOW</span>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value">8</div>
+                <div class="stat-label">Songs Queued</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">$245</div>
+                <div class="stat-label">Total Tips</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Active Tippers</div>
+            </div>
+        </div>
+
+        <div class="leaderboard">
+            <div class="leaderboard-item rank-1">
+                <div class="rank">1</div>
+                <img src="https://i.pravatar.cc/150?img=12" alt="Profile" class="profile-pic">
+                <div class="info">
+                    <div class="username">@musiclover_sarah</div>
+                    <div class="song-name">Bohemian Rhapsody - Queen</div>
+                </div>
+                <div class="tip-amount">$50</div>
+            </div>
+
+            <div class="leaderboard-item rank-2">
+                <div class="rank">2</div>
+                <img src="https://i.pravatar.cc/150?img=33" alt="Profile" class="profile-pic">
+                <div class="info">
+                    <div class="username">@jakethegreat</div>
+                    <div class="song-name">Wonderwall - Oasis</div>
+                </div>
+                <div class="tip-amount">$45</div>
+            </div>
+
+            <div class="leaderboard-item rank-3">
+                <div class="rank">3</div>
+                <img src="https://i.pravatar.cc/150?img=47" alt="Profile" class="profile-pic">
+                <div class="info">
+                    <div class="username">@emma_vibes</div>
+                    <div class="song-name">Hey There Delilah - Plain White T's</div>
+                </div>
+                <div class="tip-amount">$40</div>
+            </div>
+
+            <div class="leaderboard-item">
+                <div class="rank">4</div>
+                <img src="https://i.pravatar.cc/150?img=68" alt="Profile" class="profile-pic">
+                <div class="info">
+                    <div class="username">@michael_rocks</div>
+                    <div class="song-name">Hotel California - Eagles</div>
+                </div>
+                <div class="tip-amount">$35</div>
+            </div>
+
+            <div class="leaderboard-item">
+                <div class="rank">5</div>
+                <img src="https://i.pravatar.cc/150?img=5" alt="Profile" class="profile-pic">
+                <div class="info">
+                    <div class="username">@alex_tunes</div>
+                    <div class="song-name">Sweet Caroline - Neil Diamond</div>
+                </div>
+                <div class="tip-amount">$25</div>
+            </div>
+
+            <div class="leaderboard-item">
+                <div class="rank">6</div>
+                <img src="https://i.pravatar.cc/150?img=20" alt="Profile" class="profile-pic">
+                <div class="info">
+                    <div class="username">@samantha_98</div>
+                    <div class="song-name">Mr. Brightside - The Killers</div>
+                </div>
+                <div class="tip-amount">$20</div>
+            </div>
+
+            <div class="leaderboard-item">
+                <div class="rank">7</div>
+                <img src="https://i.pravatar.cc/150?img=15" alt="Profile" class="profile-pic">
+                <div class="info">
+                    <div class="username">@davidmusic</div>
+                    <div class="song-name">Don't Stop Believin' - Journey</div>
+                </div>
+                <div class="tip-amount">$15</div>
+            </div>
+
+            <div class="leaderboard-item">
+                <div class="rank">8</div>
+                <img src="https://i.pravatar.cc/150?img=31" alt="Profile" class="profile-pic">
+                <div class="info">
+                    <div class="username">@jenny_cool</div>
+                    <div class="song-name">Hallelujah - Jeff Buckley</div>
+                </div>
+                <div class="tip-amount">$15</div>
+            </div>
+        </div>
+
+        <div class="add-tip-cta">
+            <button class="btn">ADD YOUR REQUEST</button>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Amplify. Support the music.</p>
+        </footer>
+    </div>
+</body>
+</html>
