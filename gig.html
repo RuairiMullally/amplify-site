@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Gig - Amplify</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --yellow: #FFD600;
+            --yellow-bright: #FFEB3B;
+            --black: #0A0A0A;
+            --black-light: #1a1a1a;
+            --black-lighter: #2a2a2a;
+            --gray: #808080;
+            --green: #4CAF50;
+            --red: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--yellow);
+            font-family: 'Manrope', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        /* Header */
+        .gig-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--black-lighter);
+        }
+
+        .gig-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            letter-spacing: 3px;
+            color: var(--yellow);
+        }
+
+        .live-status {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--black-light);
+            padding: 1rem 2rem;
+            border: 2px solid var(--green);
+        }
+
+        .live-dot {
+            width: 20px;
+            height: 20px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+                box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+            }
+        }
+
+        .live-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: var(--green);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-box {
+            background: var(--black-light);
+            border: 2px solid var(--yellow);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            color: var(--yellow);
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+        }
+
+        /* Main Layout */
+        .gig-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+
+        /* Queue Section */
+        .queue-section {
+            background: var(--black-light);
+            border: 3px solid var(--yellow);
+            padding: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--black-lighter);
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            letter-spacing: 3px;
+        }
+
+        .queue-count {
+            background: var(--yellow);
+            color: var(--black);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        /* Queue Items */
+        .queue-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .queue-item {
+            background: var(--black);
+            border: 3px solid var(--black-lighter);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .queue-item.next-up {
+            border-color: var(--yellow);
+            background: linear-gradient(135deg, var(--black) 0%, rgba(255, 214, 0, 0.05) 100%);
+        }
+
+        .queue-item.next-up::before {
+            content: 'NEXT UP';
+            position: absolute;
+            top: -12px;
+            left: 1.5rem;
+            background: var(--yellow);
+            color: var(--black);
+            padding: 0.3rem 1rem;
+            font-weight: 800;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .item-header {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .rank-badge {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--yellow);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .queue-item.next-up .rank-badge {
+            color: var(--yellow-bright);
+        }
+
+        .album-art {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            border: 3px solid var(--yellow);
+            object-fit: cover;
+        }
+
+        .song-info {
+            flex: 1;
+        }
+
+        .song-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.2rem;
+            color: var(--yellow);
+            margin-bottom: 0.3rem;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+
+        .song-artist {
+            color: var(--gray);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .pool-amount {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4rem;
+            color: var(--yellow);
+            line-height: 1;
+        }
+
+        .pool-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contributors-mini {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--black-lighter);
+            align-items: center;
+        }
+
+        .contributors-mini span {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .contributor-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--yellow);
+            margin-left: -8px;
+        }
+
+        .contributor-avatar:first-of-type {
+            margin-left: 0;
+        }
+
+        .more-contributors {
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-left: 0.5rem;
+        }
+
+        /* Action Buttons */
+        .item-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            font-family: 'Manrope', sans-serif;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-play {
+            background: var(--green);
+            color: white;
+            grid-column: 1 / -1;
+            font-size: 1.5rem;
+            padding: 2rem;
+        }
+
+        .btn-play:hover {
+            background: #45a049;
+            transform: scale(1.02);
+        }
+
+        .btn-skip {
+            background: transparent;
+            border: 2px solid var(--gray);
+            color: var(--gray);
+        }
+
+        .btn-skip:hover {
+            border-color: var(--yellow);
+            color: var(--yellow);
+        }
+
+        .btn-remove {
+            background: var(--red);
+            color: white;
+        }
+
+        .btn-remove:hover {
+            background: #d32f2f;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sidebar-card {
+            background: var(--black-light);
+            border: 2px solid var(--black-lighter);
+            padding: 1.5rem;
+        }
+
+        .sidebar-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--yellow);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        /* Now Playing */
+        .now-playing {
+            border-color: var(--green);
+        }
+
+        .now-playing-content {
+            text-align: center;
+        }
+
+        .now-playing-art {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            border: 3px solid var(--green);
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+        }
+
+        .now-playing-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--green);
+            margin-bottom: 0.3rem;
+        }
+
+        .now-playing-artist {
+            color: var(--gray);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            background: var(--black);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            background: var(--green);
+            height: 100%;
+            width: 0%;
+            animation: progress 180s linear forwards;
+        }
+
+        @keyframes progress {
+            to { width: 100%; }
+        }
+
+        .progress-time {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .btn-finish {
+            width: 100%;
+            background: var(--green);
+            color: white;
+            margin-top: 1rem;
+        }
+
+        .btn-finish:hover {
+            background: #45a049;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .quick-btn {
+            padding: 1rem;
+            font-size: 1rem;
+            background: var(--black);
+            border: 2px solid var(--black-lighter);
+            color: var(--yellow);
+        }
+
+        .quick-btn:hover {
+            border-color: var(--yellow);
+            background: rgba(255, 214, 0, 0.05);
+        }
+
+        /* Empty State */
+        .empty-queue {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--gray);
+        }
+
+        .empty-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--yellow);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Confirmation Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--black-light);
+            border: 3px solid var(--yellow);
+            max-width: 500px;
+            width: 90%;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .modal-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--yellow);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .modal-text {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .modal-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 1024px) {
+            .gig-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gig-title {
+                font-size: 2rem;
+            }
+
+            .live-status {
+                padding: 0.8rem 1.2rem;
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .item-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-play {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="gig-header">
+            <h1 class="gig-title">LIVE GIG</h1>
+            <div class="header-actions">
+                <div class="live-status">
+                    <div class="live-dot"></div>
+                    <span class="live-text">LIVE</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-box">
+                <div class="stat-value" id="totalTips">$450</div>
+                <div class="stat-label">Total Tips</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="queueCount">6</div>
+                <div class="stat-label">In Queue</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="songsPlayed">3</div>
+                <div class="stat-label">Songs Played</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="activeTippers">18</div>
+                <div class="stat-label">Active Tippers</div>
+            </div>
+        </div>
+
+        <!-- Main Layout -->
+        <div class="gig-layout">
+            <!-- Queue Section -->
+            <div class="queue-section">
+                <div class="section-header">
+                    <h2 class="section-title">QUEUE</h2>
+                    <span class="queue-count" id="queueCountBadge">6 Songs</span>
+                </div>
+
+                <div class="queue-list" id="queueList">
+                    <!-- Queue items will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Now Playing -->
+                <div class="sidebar-card now-playing" id="nowPlayingCard" style="display: none;">
+                    <h3 class="sidebar-title">NOW PLAYING</h3>
+                    <div class="now-playing-content">
+                        <img id="nowPlayingArt" src="" alt="Album Art" class="now-playing-art">
+                        <div class="now-playing-title" id="nowPlayingTitle"></div>
+                        <div class="now-playing-artist" id="nowPlayingArtist"></div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="progress-time">
+                            <span id="currentTime">0:00</span>
+                            <span id="totalTime">3:00</span>
+                        </div>
+                        <button class="btn btn-finish" onclick="finishSong()">FINISH SONG</button>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">QUICK ACTIONS</h3>
+                    <div class="quick-actions">
+                        <button class="btn quick-btn" onclick="window.location.href='leaderboard.html'">
+                            📊 View Public Leaderboard
+                        </button>
+                        <button class="btn quick-btn" onclick="window.location.href='musician.html'">
+                            ⚙️ Dashboard Settings
+                        </button>
+                        <button class="btn quick-btn" onclick="pauseRequests()">
+                            ⏸️ Pause New Requests
+                        </button>
+                        <button class="btn quick-btn btn-remove" onclick="endGig()">
+                            ⏹️ End Gig
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmModal">
+        <div class="modal-content">
+            <div class="modal-icon" id="modalIcon">🎵</div>
+            <h2 class="modal-title" id="modalTitle">Start This Song?</h2>
+            <p class="modal-text" id="modalText">
+                This will charge all contributors and remove the song from the queue.
+            </p>
+            <div class="modal-actions">
+                <button class="btn btn-skip" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-play" id="confirmBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Queue data
+        let queue = [
+            { 
+                id: 1, 
+                title: "Bohemian Rhapsody", 
+                artist: "Queen", 
+                img: "https://picsum.photos/seed/bohemian/200/200", 
+                pool: 125,
+                contributors: [
+                    { name: "@sarah_music", img: "https://i.pravatar.cc/150?img=12", amount: 50 },
+                    { name: "@mike_rocks", img: "https://i.pravatar.cc/150?img=68", amount: 35 },
+                    { name: "@jenny_cool", img: "https://i.pravatar.cc/150?img=31", amount: 25 },
+                    { name: "@alex_tunes", img: "https://i.pravatar.cc/150?img=5", amount: 10 },
+                    { name: "@lisa_b", img: "https://i.pravatar.cc/150?img=42", amount: 5 }
+                ]
+            },
+            { 
+                id: 2, 
+                title: "Wonderwall", 
+                artist: "Oasis", 
+                img: "https://picsum.photos/seed/wonderwall/200/200", 
+                pool: 95,
+                contributors: [
+                    { name: "@jakethegreat", img: "https://i.pravatar.cc/150?img=33", amount: 45 },
+                    { name: "@samantha_98", img: "https://i.pravatar.cc/150?img=20", amount: 30 },
+                    { name: "@davidmusic", img: "https://i.pravatar.cc/150?img=15", amount: 20 }
+                ]
+            },
+            { 
+                id: 3, 
+                title: "Hey There Delilah", 
+                artist: "Plain White T's", 
+                img: "https://picsum.photos/seed/delilah/200/200", 
+                pool: 85,
+                contributors: [
+                    { name: "@emma_vibes", img: "https://i.pravatar.cc/150?img=47", amount: 40 },
+                    { name: "@chris_live", img: "https://i.pravatar.cc/150?img=8", amount: 25 },
+                    { name: "@lisa_beats", img: "https://i.pravatar.cc/150?img=42", amount: 15 },
+                    { name: "@tom_j", img: "https://i.pravatar.cc/150?img=50", amount: 5 }
+                ]
+            },
+            { 
+                id: 4, 
+                title: "Hotel California", 
+                artist: "Eagles", 
+                img: "https://picsum.photos/seed/hotel/200/200", 
+                pool: 60,
+                contributors: [
+                    { name: "@michael_rocks", img: "https://i.pravatar.cc/150?img=68", amount: 35 },
+                    { name: "@rachel_m", img: "https://i.pravatar.cc/150?img=25", amount: 25 }
+                ]
+            },
+            { 
+                id: 5, 
+                title: "Sweet Caroline", 
+                artist: "Neil Diamond", 
+                img: "https://picsum.photos/seed/caroline/200/200", 
+                pool: 45,
+                contributors: [
+                    { name: "@alex_tunes", img: "https://i.pravatar.cc/150?img=5", amount: 45 }
+                ]
+            },
+            { 
+                id: 6, 
+                title: "Mr. Brightside", 
+                artist: "The Killers", 
+                img: "https://picsum.photos/seed/brightside/200/200", 
+                pool: 40,
+                contributors: [
+                    { name: "@samantha_98", img: "https://i.pravatar.cc/150?img=20", amount: 20 },
+                    { name: "@tom_j", img: "https://i.pravatar.cc/150?img=50", amount: 12 },
+                    { name: "@kate_w", img: "https://i.pravatar.cc/150?img=18", amount: 8 }
+                ]
+            }
+        ];
+
+        let stats = {
+            totalTips: 450,
+            songsPlayed: 3,
+            activeTippers: 18
+        };
+
+        let nowPlaying = null;
+        let currentAction = null;
+
+        // Render queue
+        function renderQueue() {
+            const queueList = document.getElementById('queueList');
+            
+            if (queue.length === 0) {
+                queueList.innerHTML = `
+                    <div class="empty-queue">
+                        <div class="empty-icon">🎵</div>
+                        <h3 class="empty-title">Queue is Empty</h3>
+                        <p>Waiting for song requests from your audience...</p>
+                    </div>
+                `;
+                document.getElementById('queueCountBadge').textContent = '0 Songs';
+                return;
+            }
+
+            queueList.innerHTML = queue.map((song, index) => `
+                <div class="queue-item ${index === 0 ? 'next-up' : ''}">
+                    <div class="item-header">
+                        <div class="rank-badge">#${index + 1}</div>
+                        <img src="${song.img}" alt="${song.title}" class="album-art">
+                        <div class="song-info">
+                            <div class="song-title">${song.title}</div>
+                            <div class="song-artist">${song.artist}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="pool-amount">$${song.pool}</div>
+                            <div class="pool-label">Pool</div>
+                        </div>
+                    </div>
+                    <div class="contributors-mini">
+                        <span>${song.contributors.length} contributor${song.contributors.length > 1 ? 's' : ''}:</span>
+                        ${song.contributors.slice(0, 4).map(c => 
+                            `<img src="${c.img}" alt="${c.name}" class="contributor-avatar" title="${c.name}: $${c.amount}">`
+                        ).join('')}
+                        ${song.contributors.length > 4 ? `<span class="more-contributors">+${song.contributors.length - 4} more</span>` : ''}
+                    </div>
+                    <div class="item-actions">
+                        <button class="btn btn-play" onclick="playSong(${song.id})">
+                            ▶ PLAY NOW
+                        </button>
+                        <button class="btn btn-skip" onclick="skipSong(${song.id})">
+                            ⏭ Skip
+                        </button>
+                        <button class="btn btn-remove" onclick="removeSong(${song.id})">
+                            ✕ Remove
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('queueCountBadge').textContent = `${queue.length} Song${queue.length !== 1 ? 's' : ''}`;
+            document.getElementById('queueCount').textContent = queue.length;
+        }
+
+        // Update stats
+        function updateStats() {
+            document.getElementById('totalTips').textContent = '$' + stats.totalTips;
+            document.getElementById('songsPlayed').textContent = stats.songsPlayed;
+            document.getElementById('activeTippers').textContent = stats.activeTippers;
+        }
+
+        // Play song
+        function playSong(id) {
+            const song = queue.find(s => s.id === id);
+            if (!song) return;
+
+            currentAction = { type: 'play', song };
+            
+            document.getElementById('modalIcon').textContent = '🎵';
+            document.getElementById('modalTitle').textContent = 'Start This Song?';
+            document.getElementById('modalText').innerHTML = `
+                <strong>${song.title}</strong> by ${song.artist}<br>
+                Pool: $${song.pool} from ${song.contributors.length} contributor${song.contributors.length > 1 ? 's' : ''}<br><br>
+                All contributors will be charged and the song will be removed from the queue.
+            `;
+            
+            const confirmBtn = document.getElementById('confirmBtn');
+            confirmBtn.onclick = confirmPlay;
+            
+            document.getElementById('confirmModal').classList.add('active');
+        }
+
+        function confirmPlay() {
+            const song = currentAction.song;
+            
+            // Remove from queue
+            queue = queue.filter(s => s.id !== song.id);
+            
+            // Update stats
+            stats.totalTips += song.pool;
+            stats.songsPlayed++;
+            
+            // Set as now playing
+            nowPlaying = song;
+            document.getElementById('nowPlayingCard').style.display = 'block';
+            document.getElementById('nowPlayingArt').src = song.img;
+            document.getElementById('nowPlayingTitle').textContent = song.title;
+            document.getElementById('nowPlayingArtist').textContent = song.artist;
+            
+            // Reset progress bar
+            const progressFill = document.getElementById('progressFill');
+            progressFill.style.animation = 'none';
+            setTimeout(() => {
+                progressFill.style.animation = 'progress 180s linear forwards';
+            }, 10);
+            
+            // Re-render
+            renderQueue();
+            updateStats();
+            closeModal();
+        }
+
+        // Skip song
+        function skipSong(id) {
+            const song = queue.find(s => s.id === id);
+            if (!song) return;
+
+            currentAction = { type: 'skip', id };
+            
+            document.getElementById('modalIcon').textContent = '⏭';
+            document.getElementById('modalTitle').textContent = 'Skip This Song?';
+            document.getElementById('modalText').innerHTML = `
+                Move <strong>${song.title}</strong> to the end of the queue?<br>
+                The pool amount will remain unchanged.
+            `;
+            
+            const confirmBtn = document.getElementById('confirmBtn');
+            confirmBtn.onclick = confirmSkip;
+            confirmBtn.className = 'btn btn-skip';
+            
+            document.getElementById('confirmModal').classList.add('active');
+        }
+
+        function confirmSkip() {
+            const songIndex = queue.findIndex(s => s.id === currentAction.id);
+            if (songIndex !== -1) {
+                const [song] = queue.splice(songIndex, 1);
+                queue.push(song);
+                renderQueue();
+            }
+            closeModal();
+        }
+
+        // Remove song
+        function removeSong(id) {
+            const song = queue.find(s => s.id === id);
+            if (!song) return;
+
+            currentAction = { type: 'remove', id };
+            
+            document.getElementById('modalIcon').textContent = '⚠️';
+            document.getElementById('modalTitle').textContent = 'Remove This Song?';
+            document.getElementById('modalText').innerHTML = `
+                Remove <strong>${song.title}</strong> from the queue?<br>
+                Contributors will be refunded $${song.pool} total.<br><br>
+                This action cannot be undone.
+            `;
+            
+            const confirmBtn = document.getElementById('confirmBtn');
+            confirmBtn.onclick = confirmRemove;
+            confirmBtn.className = 'btn btn-remove';
+            
+            document.getElementById('confirmModal').classList.add('active');
+        }
+
+        function confirmRemove() {
+            queue = queue.filter(s => s.id !== currentAction.id);
+            renderQueue();
+            closeModal();
+        }
+
+        // Finish current song
+        function finishSong() {
+            nowPlaying = null;
+            document.getElementById('nowPlayingCard').style.display = 'none';
+        }
+
+        // Modal control
+        function closeModal() {
+            document.getElementById('confirmModal').classList.remove('active');
+            currentAction = null;
+            document.getElementById('confirmBtn').className = 'btn btn-play';
+        }
+
+        // Quick actions
+        function pauseRequests() {
+            alert('New requests paused. You can resume from the Dashboard Settings.');
+        }
+
+        function endGig() {
+            if (confirm('Are you sure you want to end this gig? This will clear the queue and stop accepting requests.')) {
+                window.location.href = 'musician.html';
+            }
+        }
+
+        // Initial render
+        renderQueue();
+        updateStats();
+    </script>
+</body>
+</html>
